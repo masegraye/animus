@@ -1,5 +1,5 @@
 var buildSupport = require("thicket-build-support");
 
-buildSupport.exportArtifacts("animus-core");
+buildSupport.exportArtifacts("animus");
 
 task("default", ["export-artifacts"]);
