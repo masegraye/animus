@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "animus-core",
+  "version": "0.0.1",
+  "description": "Animus Core library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mason Browne <m.public@academy15.com> (http://www.masonbrowne.com)",
+  "license": "MIT"
+}
