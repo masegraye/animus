@@ -2,4 +2,7 @@ var buildSupport = require("thicket-build-support");
 
 buildSupport.exportArtifacts("animus");
 
-task("default", ["export-artifacts"]);
+desc("Build lib-node and lib-web artifacts");
+task("build", ["export-artifacts"]);
+
+task("default", ["build"]);
