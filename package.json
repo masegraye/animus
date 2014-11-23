@@ -10,9 +10,10 @@
   "author": "Mason Browne <m.public@academy15.com> (http://www.masonbrowne.com)",
   "license": "MIT",
   "dependencies": {
-    "thicket": "^1.0.3"
+    "bluebird": "^2.3.11",
+    "thicket": "^1.0.3",
+    "underscore": "^1.7.0"
   },
-
   "devDependencies": {
     "thicket-build-support": "^0.0.1"
   }

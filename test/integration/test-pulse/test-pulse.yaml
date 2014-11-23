@@ -1,0 +1,6 @@
+---
+000-global:
+  simulated: true
+
+010-beagle:
+  simulated: false
