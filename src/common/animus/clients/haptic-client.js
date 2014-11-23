@@ -47,12 +47,14 @@ var mod = function(
         });
     }),
 
-    testDevice: Promise.method(function(sessionId, pulses) {
+    testDevice: Promise.method(function(opts) {
+      opts = Options.fromObject(opts);
       return this._courier
         .sendAndReceive(this._serviceIdentity, {
           mT: "testDevice",
-          sessionId: sessionId,
-          pulses: pulses
+          sessionId:     opts.getOrError("sessionId"),
+          pulses:        opts.getOrError("pulses"),
+          pulseDuration: opts.getOrElse("pulseDuration", 250)
         })
         .then(function() {
           Log.debug("Test complete");

@@ -68,7 +68,8 @@ var mod = function(
         .delay(duration)
         .then(function() {
           this.off(Device.Motor.TEST)
-        });
+        })
+        .delay(duration);
     })
   });
 

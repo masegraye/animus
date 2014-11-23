@@ -57,7 +57,11 @@ var mod = function(
           return this._client.initSession();
         })
         .then(function(sessionId) {
-          return this._client.testDevice(sessionId, 10);
+          return this._client.testDevice({
+            sessionId: sessionId,
+            pulses: 5,
+            pulseDuration: 500
+          });
         });
     }),
 

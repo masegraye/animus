@@ -97,7 +97,8 @@ var mod = function(
     }),
 
     onReqTestDevice: Promise.method(function(msg) {
-      var pulses = msg.pulses || 1;
+      var pulses = msg.pulses || 1,
+          pulseDuration = msg.pulseDuration || 100;
 
       var tail = Promise.resolve().bind(this);
 
@@ -107,7 +108,7 @@ var mod = function(
         tail = tail.then(function() {
           Log.debug("Pulse", p);
           return this._device
-            .testPulse(100);
+            .testPulse(pulseDuration);
         });
 
       }, this);
