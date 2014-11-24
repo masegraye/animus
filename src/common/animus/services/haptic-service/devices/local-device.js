@@ -23,6 +23,11 @@ var mod = function(
       this._pinMap = opts.getOrElseFn("pinMap", function() {
         var map = {};
         map[Device.Motor.TEST] = "P9_14";
+
+        map[Device.Motor.LOF]  = "P9_14";
+        map[Device.Motor.LIF]  = "P9_16";
+        map[Device.Motor.LIB]  = "P8_13";
+        map[Device.Motor.LOB]  = "P8_19";
         return map;
       })
 
@@ -82,5 +87,5 @@ module.exports = mod(
   require("thicket").c("options"),
   require("thicket").c("logger"),
   require("bonescript"),
-  require("./device")
+  require("../../../concepts/device")
 );

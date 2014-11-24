@@ -42,11 +42,13 @@ var mod = function(
 
 
     on: Promise.method(function(motor) {
+      Log.debug("ON", motor);
       return;
     }),
 
 
     off: Promise.method(function(motor) {
+      Log.debug("OFF", motor);
       return;
     })
   });
@@ -59,5 +61,5 @@ module.exports = mod(
   require("bluebird"),
   require("thicket").c("channel"),
   require("thicket").c("logger"),
-  require("./device")
+  require("../../../concepts/device")
 );

@@ -1,6 +1,30 @@
 ---
 000-global:
   simulated: true
+  test: pulse
+
+  # For pulseTest
+  pulses: 35
+  pulseDuration: 35
+
 
 010-beagle:
   simulated: false
+
+020-intArray:
+  #simulated: true
+  test: pulseIntArray
+  intArray:
+    - 0x1
+    - 0x2
+    - 0x2
+    - 0x1
+    - 0x8
+    - 0x8
+    - 0x2
+    - 0x3
+    - 0xA
+    - 0xB
+
+  pulseDuration: 100
+  restDuration: 50

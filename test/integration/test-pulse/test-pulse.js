@@ -50,6 +50,16 @@ var mod = function(
     },
 
     up: Promise.method(function() {
+      var t = this.config("test");
+      t = "_test" + t.charAt(0).toUpperCase() + t.substr(1);
+      return this[t]();
+    }),
+
+    down: Promise.method(function() {
+
+    }),
+
+    _testPulse: Promise.method(function() {
       return this._service
         .start()
         .bind(this)
@@ -58,15 +68,28 @@ var mod = function(
         })
         .then(function(sessionId) {
           return this._client.testDevice({
-            sessionId: sessionId,
-            pulses: 5,
-            pulseDuration: 500
+            sessionId:     sessionId,
+            pulses:        this.config("pulses"),
+            pulseDuration: this.config("pulseDuration")
           });
         });
     }),
 
-    down: Promise.method(function() {
-
+    _testPulseIntArray: Promise.method(function() {
+      return this._service
+        .start()
+        .bind(this)
+        .then(function() {
+          return this._client.initSession();
+        })
+        .then(function(sessionId) {
+          return this._client.pulseIntArray({
+            sessionId:     sessionId,
+            intArray:      this.config("intArray"),
+            pulseDuration: this.config("pulseDuration"),
+            restDuration:  this.config("restDuration")
+          })
+        });
     })
   });
 

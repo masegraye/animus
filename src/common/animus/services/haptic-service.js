@@ -8,10 +8,14 @@ var mod = function(
   Options,
   Courier,
   Logger,
-  UUID
+  UUID,
+  Device
 ) {
 
   var Log = Logger.create("HapticService");
+
+  var DEFAULT_PULSE_DURATION = 100,
+      DEFAULT_REST_DURATION = 100;
 
   var HapticService = function() {
     this.initialize.apply(this, arguments);
@@ -114,6 +118,43 @@ var mod = function(
       }, this);
 
       return tail;
+    }),
+
+    onReqPulseIntArray: Promise.method(function(msg) {
+      var opts = Options.fromObject(msg);
+
+      var intArray      = opts.getOrError("intArray"),
+          pulseDuration = opts.getOrElse("pulseDuration",  DEFAULT_PULSE_DURATION),
+          restDuration  = opts.getOrElse("restDuration",   DEFAULT_REST_DURATION)
+
+      Log.debug("onReqPulseIntArray", msg);
+
+      return Promise.each(intArray, _.bind(function(num) {
+        var motors = _.chain(Device.Motor).map(function(val, key) {
+          if (key === "TEST") return;
+          var res = 0xFFFF & num & val;
+          if (res > 0) return res;
+        }).compact().value();
+
+        Log.debug("Item", num, "motors", motors);
+
+        return Promise
+          .bind(this)
+          .then(function() {
+            return Promise.all(_.map(motors, function(m) {
+              return this._device.on(m);
+            }, this));
+          })
+          .delay(pulseDuration)
+          .then(function() {
+            return Promise.all(_.map(motors, function(m) {
+              return this._device.off(m);
+            }, this));
+          })
+          .delay(restDuration);
+      }, this));
+
+
     })
   });
 
@@ -165,5 +206,6 @@ module.exports = mod(
   require("thicket").c("options"),
   require("thicket").c("messaging/courier"),
   require("thicket").c("logger"),
-  require("thicket").c("uuid")
+  require("thicket").c("uuid"),
+  require("../concepts/device")
 );
