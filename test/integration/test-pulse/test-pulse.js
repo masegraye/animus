@@ -4,6 +4,7 @@
 var mod = function(
   _,
   Promise,
+  Lang,
   App,
   Runtime,
   Exchange,
@@ -11,7 +12,8 @@ var mod = function(
   HapticService,
   HapticClient,
   SimulatedDevice,
-  LocalDevice
+  LocalDevice,
+  Device
 ) {
 
   var Log = Logger.create("TestPulse");
@@ -90,6 +92,55 @@ var mod = function(
             restDuration:  this.config("restDuration")
           })
         });
+    }),
+
+    _testActiveInput: Promise.method(function() {
+      var deferred = Lang.deferred();
+
+      return this._service
+        .start()
+        .bind(this)
+        .then(function() {
+          return this._client.initSession();
+        })
+        .then(function(sessionId) {
+          process.stdin.setRawMode(true);
+          process.stdin.resume();
+          process.stdin.on('data', _.bind(function(data) {
+            process.stdout.write('Get Chunk: ' + data + '\n');
+            var s = "" + data;
+
+            if (s === "c" || s === "z") deferred.resolve();
+
+            var motors = null;
+
+            switch(s) {
+              case "1":
+                motors = [Device.Motor.LIF];
+                break;
+              case "2":
+                motors = [Device.Motor.LOF];
+                break;
+              case "q":
+                motors = [Device.Motor.LIF | Device.Motor.LOF];
+            }
+
+            if (motors) {
+              this._client.pulseIntArray({
+                sessionId: sessionId,
+                intArray: motors,
+                pulseDuration: this.config("pulseDuration"),
+                restDuration: this.config("restDuration")
+              })
+            }
+
+
+          }, this));
+        })
+        .then(function() {
+          return deferred.promise;
+        });
+
     })
   });
 
@@ -102,6 +153,7 @@ var thicket = require("thicket"),
 var TestPulse = mod(
   require("underscore"),
   require("bluebird"),
+  thicket.c("lang"),
   thicket.c("app"),
   thicket.c("runtime"),
   thicket.c("messaging/exchange"),
@@ -109,7 +161,8 @@ var TestPulse = mod(
   animus.c("haptic-service"),
   animus.c("haptic-client"),
   animus.c("devices/simulated"),
-  animus.c("devices/local")
+  animus.c("devices/local"),
+  animus.c("device")
 );
 
 

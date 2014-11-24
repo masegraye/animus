@@ -18,7 +18,7 @@ var mod = function(
       as: "haptic-service"
     },
     {
-      module: require("./services/haptic-service/devices/device"),
+      module: require("./concepts/device"),
       as: "device"
     },
     {

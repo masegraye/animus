@@ -4,9 +4,10 @@
   test: pulse
 
   # For pulseTest
-  pulses: 35
-  pulseDuration: 35
+  pulses: 5
 
+  pulseDuration: 250
+  restDuration: 100
 
 010-beagle:
   simulated: false
@@ -26,5 +27,5 @@
     - 0xA
     - 0xB
 
-  pulseDuration: 250
-  restDuration: 100
+020-activeInput:
+  test: activeInput
