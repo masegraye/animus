@@ -26,5 +26,5 @@
     - 0xA
     - 0xB
 
-  pulseDuration: 100
-  restDuration: 50
+  pulseDuration: 250
+  restDuration: 100
